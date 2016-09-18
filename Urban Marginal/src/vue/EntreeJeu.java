@@ -1,45 +1,50 @@
 package vue;
 
-
-import java.awt.EventQueue;
+import controleur.Controle;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+
+
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextField;
 
 public class EntreeJeu extends JFrame {
 	
 	private JPanel contentPane;
+	private Controle controle;
+	private JTextField txtIp;
+
 
 	/**
 	 * Launch the application.
 	 */
 
 	private void btnStart_clic(){
-			System.out.println("using start button");
+			controle.evenementVue(this,"serveur");
 	}
 		
-	
 		private void btnExit_clic(){
 			System.exit(0);
 		
 		}
 			private void btnConnect_clic(){
-				System.out.println("Connexion au serveur");
+				controle.evenementVue(this,txtIp.getText());
 	
 			}
 
 	/**
 	 * Create the frame.
+	 * @param controle 
 	 */
-	public EntreeJeu() {
+	public EntreeJeu(Controle controle){ 
 		setTitle("Urban Marginal TP");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 358, 257);
@@ -59,11 +64,6 @@ public class EntreeJeu extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("Ip Server :");
 		lblNewLabel_1.setBounds(22, 93, 80, 34);
 		contentPane.add(lblNewLabel_1);
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setText("127.0.0.1");
-		textArea.setBounds(88, 98, 101, 23);
-		contentPane.add(textArea);
 		
 		JButton btnNewButton = new JButton("Start");
 		btnNewButton.addMouseListener(new MouseAdapter() {
@@ -106,5 +106,13 @@ public class EntreeJeu extends JFrame {
 		});
 		btnNewButton_2.setBounds(205, 158, 89, 23);
 		contentPane.add(btnNewButton_2);
+		
+		txtIp = new JTextField();
+		txtIp.setText("127.0.0.1");
+		txtIp.setBounds(85, 100, 86, 20);
+		contentPane.add(txtIp);
+		txtIp.setColumns(10);
+		
+		this.controle = controle;
 	}
 }
