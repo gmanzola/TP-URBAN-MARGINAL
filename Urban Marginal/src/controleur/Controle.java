@@ -1,6 +1,7 @@
 package controleur;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import modele.Jeu;
 import modele.JeuClient;
@@ -27,7 +28,11 @@ public class Controle implements Global {
 	
 	public void setConnection(Connection connection){
 		this.connection=connection;
+		if(leJeu instanceof JeuServeur){
+			leJeu.setConnection(connection);
+		}
 	}
+	
 
 	public Controle() {
 		this.frmEntreeJeu = new EntreeJeu(this);
@@ -36,18 +41,25 @@ public class Controle implements Global {
 	}
 
 	// Gestion des evenements du modele
+	
+	public void receptionInfo(Connection connection, Object info){
+		this.leJeu.reception(connection, info);
+	}
 
 	public void evenementVue(JFrame uneFrame, Object info) {
 		if (uneFrame instanceof EntreeJeu) {
 			evenementEntreeJeu(info);
 		}
 		if (uneFrame instanceof ChoixJoueur) {
-			evenementChoixJoueur();
+			evenementChoixJoueur(info);
 		}
 	}
-
-	private void evenementChoixJoueur() {
-		// A FAIRE leJeu.(JeuClient.envoi(info));
+	
+	private void evenementChoixJoueur(Object info) {
+		((JeuClient)this.leJeu).envoi(info);
+		frmChoixJoueur.dispose();
+		frmArene.setVisible(true);
+		
 	}
 
 	private void evenementEntreeJeu(Object info) {
@@ -55,16 +67,36 @@ public class Controle implements Global {
 			new ServeurSocket(this, PORT);
 			leJeu = new JeuServeur(this);
 			frmEntreeJeu.dispose();
-			(frmArene = new Arene()).setVisible(true);
-		
-		} else {
-			(new ClientSocket((String) info, PORT,this)).isConnexionOk();
 			frmArene = new Arene();
-			leJeu.setConnection(connection);
-			frmEntreeJeu.dispose();
-			(frmChoixJoueur = new ChoixJoueur(this)).setVisible(true);
+			((JeuServeur)this.leJeu).constructionMurs();
+			frmArene.setVisible(true);
+		} 
+		else {
+			if((new ClientSocket((String) info, PORT,this)).isConnexionOk()){
+				leJeu = new JeuClient(this);
+				frmArene = new Arene();
+				leJeu.setConnection(connection);
+				frmEntreeJeu.dispose();
+				frmChoixJoueur = new ChoixJoueur(this);
+				frmChoixJoueur.setVisible(true);
+			}
 		}
 
+	}
+	
+	public void evemenementModele(Object unJeu,String ordre, Object info){
+		if(unJeu instanceof JeuServeur){
+			evenementJeuServeur(ordre,info);
+			
+		}
+		
+	}
+
+	private void evenementJeuServeur(String ordre, Object info) {
+		if(ordre == "ajout mur"){
+			frmArene.ajoutMur((JLabel)info);
+		}
+		
 	}
 
 }

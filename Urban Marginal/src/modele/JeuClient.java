@@ -8,8 +8,7 @@ public class JeuClient extends Jeu {
 	private Connection connection;
 	
 /**
- * 
- * @param controle
+ * @param controle 
  */
 	public JeuClient(Controle controle) {
 		super.controle = controle;

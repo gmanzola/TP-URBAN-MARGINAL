@@ -21,5 +21,20 @@ public interface Global {
 	public static final Integer L_PERSO = 39;
 	public static final String SEPARE = "~";
 	public static final Integer PSEUDO = 0;
+	public static final Integer H_ARENE = 600;
+	public static final Integer L_ARENE = 800;
+	public static final Integer H_CHAT = 200;
+	public static final Integer H_SAISIE = 25;
+	public static final Integer MARGE = 5;
+	public static final String FONDARENE = CHEMINFONDS + "fondarene.jpg";
+	public static final Integer NBMURS = 20;
+	public static final String CHEMINMURS = CHEMIN + "murs" + SEPARATOR;
+	public static final String MUR = CHEMINMURS + "mur.gif";
+	public static final Integer H_MUR = 35;
+	public static final Integer L_MUR = 34;
+	
+	
+	
+	
 
 }

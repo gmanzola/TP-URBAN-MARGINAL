@@ -37,6 +37,7 @@ public class Connection extends Thread {
 		while (inOk) {
 			try {
 				reception = in.readObject();
+				((controleur.Controle)this.leRecepteur).receptionInfo(this,reception);
 			} catch (ClassNotFoundException e) {
 				System.out.println("erreur format d'objet : " + e);
 				System.exit(0);
