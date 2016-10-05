@@ -15,9 +15,14 @@ import javax.swing.JScrollPane;
 
 public class Arene extends JFrame implements Global {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtSaisie;
 	private JPanel jpnMurs;
+	private JPanel jpnJeu;
 	/**
 	 * Create the frame.
 	 */
@@ -30,7 +35,7 @@ public class Arene extends JFrame implements Global {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel jpnJeu = new JPanel();
+		jpnJeu = new JPanel();
 		jpnJeu.setBounds(0, 0, L_ARENE, H_ARENE);
 		jpnJeu.setOpaque(false);
 		contentPane.add(jpnJeu);
@@ -74,4 +79,24 @@ public class Arene extends JFrame implements Global {
 		
 	}
 	
+	public JPanel getJpnMurs(){
+		return jpnMurs;
+	}
+	
+	public void ajoutJoueur(JLabel unJoueur){
+		jpnJeu.add(unJoueur);
+		jpnJeu.repaint();
+		
+	}
+	public void ajoutModifJoueur(int num, JLabel unLabel){
+		
+		try {
+			this.jpnJeu.remove(num);
+		} catch (ArrayIndexOutOfBoundsException e) {
+
+		}
+		this.jpnJeu.add(unLabel, num);
+		this.jpnJeu.repaint();
+		System.out.println(unLabel);
+	}
 }

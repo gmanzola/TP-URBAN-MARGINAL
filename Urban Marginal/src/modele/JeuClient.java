@@ -1,5 +1,8 @@
 package modele;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import controleur.Controle;
 import outils.connexion.Connection;
 
@@ -23,7 +26,12 @@ public class JeuClient extends Jeu {
 
 	@Override
 	public void reception(Connection connection, Object info) {
-		// TODO Auto-generated method stub
+		if(info instanceof JPanel){
+			controle.evemenementModele(this,"ajout panel murs", info);
+		}
+		if(info instanceof Label){
+			controle.evemenementModele(this, "ajout joueur", info);
+		}
 
 	}
 

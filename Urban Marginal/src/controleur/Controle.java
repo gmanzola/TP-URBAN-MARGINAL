@@ -2,10 +2,12 @@ package controleur;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import modele.Jeu;
 import modele.JeuClient;
 import modele.JeuServeur;
+import modele.Label;
 import outils.connexion.ClientSocket;
 import outils.connexion.Connection;
 import outils.connexion.ServeurSocket;
@@ -86,17 +88,33 @@ public class Controle implements Global {
 	
 	public void evemenementModele(Object unJeu,String ordre, Object info){
 		if(unJeu instanceof JeuServeur){
-			evenementJeuServeur(ordre,info);
-			
+			evenementJeuServeur(ordre,info);	
+		}
+		if(unJeu instanceof JeuClient){
+			evenementJeuClient(ordre,info);
 		}
 		
+	}
+
+	private void evenementJeuClient(String ordre, Object info) {
+		if(ordre == "ajout panel murs"){
+			frmArene.ajoutPanelMurs((JPanel)info);
+		}
+		if(ordre == "ajout joueur"){
+			frmArene.ajoutModifJoueur(((Label)info).getNumLabel(),((Label)info).getjLabel());
+		}
 	}
 
 	private void evenementJeuServeur(String ordre, Object info) {
 		if(ordre == "ajout mur"){
 			frmArene.ajoutMur((JLabel)info);
 		}
-		
+		if(ordre == "envoi panel murs"){
+			((JeuServeur)this.leJeu).envoi((Connection)info, frmArene.getJpnMurs());
+		}
+		if(ordre == "ajout joueur"){
+			frmArene.ajoutJoueur((JLabel)info);
 	}
 
+}
 }
