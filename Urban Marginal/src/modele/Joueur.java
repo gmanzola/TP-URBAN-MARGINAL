@@ -14,7 +14,7 @@ import outils.connexion.Connection;
 
 public class Joueur extends Objet implements Global {
 
-	private String unJoueur;
+	private String pseudo;
 	private int numPerso;
 	private Label message;
 	private JeuServeur jeuServeur;
@@ -25,24 +25,24 @@ public class Joueur extends Objet implements Global {
 	public Joueur(JeuServeur jeuServeur) {
 		this.jeuServeur = jeuServeur;
 		vie = 10;
-		etape  = 1; // numéro d'étape dans l'animation
+		etape = 1; // numéro d'étape dans l'animation
 		orientation = DROITE;
 	}
-	
-	public void affiche(String etat, int etape){
+
+	public void affiche(String etat, int etape) {
 		label.getjLabel().setBounds(posX, posY, L_PERSO, H_PERSO);
 		label.getjLabel().setIcon(new ImageIcon(PERSO + this.numPerso + etat + etape + "d" + orientation + EXTIMAGE));
 		message.getjLabel().setBounds(posX - 10, posY + H_PERSO, L_PERSO + 0, H_MESSAGE);
-		message.getjLabel().setText(PSEUDO +" : "+vie);
+		message.getjLabel().setText(PSEUDO + " : " + vie);
 		this.jeuServeur.envoi(super.label);
 		this.jeuServeur.envoi(message);
-		
+
 	}
-	
 
-	public void initPerso(String unJoueur, int numPerso, Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+	public void initPerso(String pseudo, int numPerso, Hashtable<Connection, Joueur> lesJoueurs,
+			ArrayList<Mur> lesMurs) {
 
-		this.unJoueur = unJoueur;
+		this.pseudo = pseudo;
 		this.numPerso = numPerso;
 		label = new Label(Label.getNbLabel(), new JLabel());
 		Label.setNbLabel(Label.getNbLabel() + 1);
@@ -86,14 +86,23 @@ public class Joueur extends Objet implements Global {
 		}
 		return false;
 	}
-	
-	private void premierePosition(Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs){
+
+	private void premierePosition(Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
 		label.getjLabel().setBounds(0, 0, L_PERSO, H_PERSO);
 		do {
-			super.posX = (int)Math.round(Math.random() * (L_ARENE - L_PERSO)) ; // on enleve les dimensions du perso pour ne pas qu'il sorte de l'arene
-			super.posY = (int)Math.round(Math.random() * (H_ARENE - H_PERSO - H_MESSAGE)) ; // on enleve la hauteur du message sous le perso
-		}while(toucheJoueur(lesJoueurs)|| toucheMur(lesMurs));
-}
+			super.posX = (int) Math.round(Math.random() * (L_ARENE - L_PERSO)); 
+			// on enleve les dimensions du perso pour ne pas qu'il sorte de l'arene
+																				
+			super.posY = (int) Math.round(Math.random() * (H_ARENE - H_PERSO - H_MESSAGE)); 
+			// on enleve la hauteur du message sous le perso
+			
+		} while (toucheJoueur(lesJoueurs) || toucheMur(lesMurs));
+	}
 
-	
+	/**
+	 * @return the pseudo
+	 */
+	public String getPseudo() {
+		return pseudo;
+	}
 }

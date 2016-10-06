@@ -33,6 +33,7 @@ public interface Global {
 	public static final int H_MUR = 35;
 	public static final int L_MUR = 34;
 	public static final int H_MESSAGE = 8;
+	public static final int CHAT = 1;
 
 	
 	
