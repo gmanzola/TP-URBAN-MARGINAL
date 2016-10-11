@@ -10,6 +10,10 @@ public interface Global {
 
 	public static final int GAUCHE = 0;
 	public static final int DROITE = 1;
+	public static final int HAUT = 2;
+	public static final int BAS = 3;
+	public static final int TIRE = 4;
+	public static final int ACTION = 2;
 	public static final String CHEMINPERSOS = CHEMIN + "personnages" + SEPARATOR;
 	public static final String PERSO = CHEMINPERSOS + "perso";
 	public static final String EXTIMAGE = ".gif";
@@ -34,7 +38,12 @@ public interface Global {
 	public static final int L_MUR = 34;
 	public static final int H_MESSAGE = 8;
 	public static final int CHAT = 1;
-
+	public static final int NBETATSMARCHE = 4;
+	public static final int LEPAS = 10;
+	public static final int L_BOULE = 17;
+	public static final int H_BOULE = 17;
+	public static final String CHEMINBOULES = CHEMIN + "boules" + SEPARATOR;
+	public static final String BOULE = CHEMINBOULES + "boule.gif";
 	
 	
 	

@@ -6,7 +6,11 @@ import javax.swing.JLabel;
 
 public class Label implements Serializable{
 	
-	private static int nbLabel;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static int nbLabel;
 	private int numLabel;
 	private JLabel jLabel;
 	
@@ -21,14 +25,14 @@ public class Label implements Serializable{
 	 * @return the numLabel
 	 */
 	public int getNumLabel() {
-		return numLabel;
+		return this.numLabel;
 	}
 
 	/**
 	 * @return the jLabel
 	 */
 	public JLabel getjLabel() {
-		return jLabel;
+		return this.jLabel;
 	}
 
 	/**

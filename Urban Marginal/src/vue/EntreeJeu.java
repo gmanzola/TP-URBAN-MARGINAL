@@ -16,6 +16,10 @@ import javax.swing.JTextField;
 
 public class EntreeJeu extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Controle controle;
 	private JTextField txtIp;

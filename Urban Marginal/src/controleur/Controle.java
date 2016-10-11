@@ -107,6 +107,9 @@ public class Controle implements Global {
 		if (ordre == "ajout joueur") {
 			frmArene.ajoutModifJoueur(((Label) info).getNumLabel(), ((Label) info).getjLabel());
 		}
+		if (ordre == "remplace chat"){
+			frmArene.remplaceChat((String) info);
+		}
 	}
 
 	private void evenementJeuServeur(String ordre, Object info) {
@@ -121,6 +124,7 @@ public class Controle implements Global {
 		}
 		if (ordre == "ajout phrase"){
 			frmArene.ajoutChat(((String)info));
+			((JeuServeur)this.leJeu).envoi(frmArene.getTxtChat().getText());
 		}
 
 	}

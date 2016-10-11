@@ -1,7 +1,6 @@
 package modele;
 
 import java.awt.Font;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -21,6 +20,7 @@ public class Joueur extends Objet implements Global {
 	private int vie;
 	private int etape;
 	private int orientation;
+	private Boule boule;
 
 	public Joueur(JeuServeur jeuServeur) {
 		this.jeuServeur = jeuServeur;
@@ -29,18 +29,7 @@ public class Joueur extends Objet implements Global {
 		orientation = DROITE;
 	}
 
-	public void affiche(String etat, int etape) {
-		label.getjLabel().setBounds(posX, posY, L_PERSO, H_PERSO);
-		label.getjLabel().setIcon(new ImageIcon(PERSO + this.numPerso + etat + etape + "d" + orientation + EXTIMAGE));
-		message.getjLabel().setBounds(posX - 10, posY + H_PERSO, L_PERSO + 0, H_MESSAGE);
-		message.getjLabel().setText(PSEUDO + " : " + vie);
-		this.jeuServeur.envoi(super.label);
-		this.jeuServeur.envoi(message);
-
-	}
-
-	public void initPerso(String pseudo, int numPerso, Hashtable<Connection, Joueur> lesJoueurs,
-			ArrayList<Mur> lesMurs) {
+	public void initPerso(String pseudo, int numPerso, Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
 
 		this.pseudo = pseudo;
 		this.numPerso = numPerso;
@@ -57,15 +46,78 @@ public class Joueur extends Objet implements Global {
 		jeuServeur.nouveauLabelJeu(message);
 		premierePosition(lesJoueurs, lesMurs);
 		affiche(MARCHE, etape);
+		boule = new Boule(this.jeuServeur);
+		this.jeuServeur.envoi(boule.getLabel());
+	}
+	
+	public void affiche(String etat, int etape) {
+		label.getjLabel().setBounds(posX, posY, L_PERSO, H_PERSO);
+		label.getjLabel().setIcon(new ImageIcon(PERSO + this.numPerso + etat + etape + "d" + orientation + EXTIMAGE));
+		message.getjLabel().setBounds(posX - 10, posY + H_PERSO, L_PERSO + 0, H_MESSAGE);
+		message.getjLabel().setText(PSEUDO + " : " + vie);
+		this.jeuServeur.envoi(super.label);
+		this.jeuServeur.envoi(message);
+
 	}
 
-	/**
-	 * @return the message
-	 */
-	public Label getMessage() {
-		return message;
+	private void premierePosition(Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+		label.getjLabel().setBounds(0, 0, L_PERSO, H_PERSO);
+		do {
+			super.posX = (int) Math.round(Math.random() * (L_ARENE - L_PERSO));
+			// on enleve les dimensions du perso pour ne pas qu'il sorte de
+			// l'arene
+
+			super.posY = (int) Math.round(Math.random() * (H_ARENE - H_PERSO - H_MESSAGE));
+			// on enleve la hauteur du message sous le perso
+
+		} while (toucheJoueur(lesJoueurs) || toucheMur(lesMurs));
 	}
 
+	private int deplace(int action, int position, int orientation, int lepas, int max,Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+		this.orientation = orientation;
+		int ancienneposition = position;
+		position += lepas;
+		if (position < 0) {
+			position = 0;
+		}
+		if (position > max) {
+			position = max;
+		}
+		if (action == GAUCHE || action == DROITE) {
+			posX = position;
+		} else {
+			posY = position;
+		}
+		if (toucheJoueur(lesJoueurs) || toucheMur(lesMurs) ) {
+			position = ancienneposition;
+		}
+		etape = etape%NBETATSMARCHE + 1; 
+		return position;
+
+	}
+
+	public void action(int action, Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs){
+		switch(action){
+		
+		case GAUCHE :
+			posX = deplace(action, super.posX, GAUCHE, -LEPAS, L_ARENE-(H_PERSO+H_MESSAGE),lesJoueurs, lesMurs);
+			break;
+		case DROITE:
+			posX = deplace(action, super.posX, DROITE, LEPAS, L_ARENE-(H_PERSO+H_MESSAGE),lesJoueurs, lesMurs);
+			break;
+		case HAUT:
+			posY = deplace(action, super.posY, orientation, -LEPAS, H_ARENE-(H_PERSO+H_MESSAGE),lesJoueurs, lesMurs);
+			break;
+		case BAS:
+			posY = deplace(action, super.posY, orientation, LEPAS, H_ARENE-(H_PERSO+H_MESSAGE),lesJoueurs, lesMurs);
+			break;
+		case TIRE:
+			boule.tireBoule(this);
+			break;
+		}
+		affiche(MARCHE,etape);
+}
+	
 	private boolean toucheJoueur(Hashtable<Connection, Joueur> lesJoueurs) {
 		for (Joueur unJoueur : lesJoueurs.values()) {
 			if (!unJoueur.equals(this)) {
@@ -86,23 +138,22 @@ public class Joueur extends Objet implements Global {
 		}
 		return false;
 	}
-
-	private void premierePosition(Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
-		label.getjLabel().setBounds(0, 0, L_PERSO, H_PERSO);
-		do {
-			super.posX = (int) Math.round(Math.random() * (L_ARENE - L_PERSO)); 
-			// on enleve les dimensions du perso pour ne pas qu'il sorte de l'arene
-																				
-			super.posY = (int) Math.round(Math.random() * (H_ARENE - H_PERSO - H_MESSAGE)); 
-			// on enleve la hauteur du message sous le perso
-			
-		} while (toucheJoueur(lesJoueurs) || toucheMur(lesMurs));
+	
+	public Label getMessage() {
+		return message;
 	}
-
-	/**
-	 * @return the pseudo
-	 */
+	
 	public String getPseudo() {
 		return pseudo;
 	}
+
+	public Boule getBoule() {
+		return boule;
+	}
+	
+	public int getOrientation(){
+		return orientation;
+	}
+	
+
 }

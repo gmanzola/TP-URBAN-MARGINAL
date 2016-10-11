@@ -19,6 +19,21 @@ public abstract class Objet {
 	public int getPosY() {
 		return posY;
 	}
+	
+
+	/**
+	 * @param posX the posX to set
+	 */
+	public void setPosX(int posX) {
+		this.posX = posX;
+	}
+
+	/**
+	 * @param posY the posY to set
+	 */
+	public void setPosY(int posY) {
+		this.posY = posY;
+	}
 
 	/**
 	 * @return the label
@@ -26,6 +41,7 @@ public abstract class Objet {
 	public Label getLabel() {
 		return label;
 	}
+	
 
 	/**
 	 * contrôle si l'objet actuel touche l'objet passé en paramètre

@@ -1,6 +1,5 @@
 package modele;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controleur.Controle;
@@ -32,6 +31,9 @@ public class JeuClient extends Jeu {
 		if(info instanceof Label){
 			controle.evemenementModele(this, "ajout joueur", info);
 		}
+		if(info instanceof String){
+			controle.evemenementModele(this, "remplace chat", info);
+		}
 
 	}
 
@@ -42,7 +44,7 @@ public class JeuClient extends Jeu {
 	}
 	
 	public void envoi(Object info) {
-		super.envoi(connection, info);
+		super.envoi(this.connection, info);
 
 	}
 	

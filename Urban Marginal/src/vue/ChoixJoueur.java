@@ -18,6 +18,10 @@ import javax.swing.JTextField;
 
 public class ChoixJoueur extends JFrame implements Global {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtPseudo;
 	private Integer numPerso;

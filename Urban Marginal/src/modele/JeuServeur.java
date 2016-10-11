@@ -48,16 +48,23 @@ public class JeuServeur extends Jeu implements Global {
 			for(Joueur unJoueur : lesJoueursDansLordre){
 				super.envoi(connection, unJoueur.getLabel());
 				super.envoi(connection, unJoueur.getMessage());
+				super.envoi(connection, unJoueur.getBoule());
 			}
 		    lesJoueurs.get(connection).initPerso(infos[1], Integer.parseInt(infos[2]), lesJoueurs, lesMurs);
 		    this.lesJoueursDansLordre.add(this.lesJoueurs.get(connection));
+		    String laPhrase  = "***  " + lesJoueurs.get(connection).getPseudo() + "  vient de se connecter ***";
+		    controle.evemenementModele(this, "ajout phrase", laPhrase);
 		    break;    
 		    
 		case CHAT :
 			
-			String laPhrase = lesJoueurs.get(connection).getPseudo() + " > " + infos[1];
+			laPhrase = lesJoueurs.get(connection).getPseudo() + " > " + infos[1];
 			controle.evemenementModele(this, "ajout phrase", laPhrase);
+			break;
 			
+		case ACTION :
+			lesJoueurs.get(connection).action(Integer.parseInt(infos[1]), lesJoueurs, lesMurs);
+			break;
 		}
 	}
 
