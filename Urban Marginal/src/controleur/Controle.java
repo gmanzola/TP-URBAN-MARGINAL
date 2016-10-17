@@ -136,8 +136,8 @@ public class Controle implements Global {
 		leJeu.deconnection(connection);
 	}
 
-	//public Jeu getLeJeu() {
-		//return leJeu;
-	//}
+	public Jeu getLeJeu() {
+		return leJeu;
+	}
 	
 }

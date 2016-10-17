@@ -46,7 +46,7 @@ public class Connection extends Thread {
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "Le client s'est déconnecté");
 				inOk = false;
-				((Controle)leRecepteur).deconnection(this);
+				((Controle)this.leRecepteur).deconnection(this);
 				try {
 					in.close();
 				} catch (IOException e1) {

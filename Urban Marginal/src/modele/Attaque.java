@@ -33,7 +33,7 @@ public class Attaque extends Thread implements Global{
 	public void run(){
 		Boule laBoule = attaquant.getBoule();
 		int orientation = attaquant.getOrientation();
-		laBoule.label.getjLabel().setVisible(true);
+		laBoule.getLabel().getjLabel().setVisible(true);
 		Joueur victime = null;
 		
 		do {
@@ -43,8 +43,8 @@ public class Attaque extends Thread implements Global{
 			else{
 				laBoule.setPosX(laBoule.getPosX()+LEPAS);
 			}
-			laBoule.label.getjLabel().setBounds(laBoule.getPosX(), laBoule.getPosY(), L_BOULE, H_BOULE);
-			jeuServeur.envoi(laBoule.label);
+			laBoule.getLabel().getjLabel().setBounds(laBoule.getPosX(), laBoule.getPosY(), L_BOULE, H_BOULE);
+			jeuServeur.envoi(laBoule.getLabel());
 			victime = toucheJoueur();
 		} 
 		while(laBoule.getPosX() > 0 && laBoule.getPosX() < L_ARENE && toucheMur() == false && victime == null);
@@ -61,7 +61,7 @@ public class Attaque extends Thread implements Global{
 				jeuServeur.envoi(DEATH);
 				for(int i=1 ; i < NBETATSMORT; i++){
 					victime.affiche(MORT, i);
-					pause(200,0);
+					pause(80,0);
 				}
 			}
 					else{
@@ -69,9 +69,9 @@ public class Attaque extends Thread implements Global{
 					}
 			attaquant.affiche(MARCHE, 1);
 		}	
-		laBoule.label.getjLabel().setVisible(false);
+		laBoule.getLabel().getjLabel().setVisible(false);
 		pause(15,15);
-		jeuServeur.envoi(laBoule.label);
+		jeuServeur.envoi(laBoule.getLabel());
 		
 	}
 	

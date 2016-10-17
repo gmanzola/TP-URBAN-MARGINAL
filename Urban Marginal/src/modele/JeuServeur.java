@@ -63,7 +63,7 @@ public class JeuServeur extends Jeu implements Global {
 			break;
 			
 		case ACTION :
-			if(lesJoueurs.get(connection).estMort() == false){
+			if(!lesJoueurs.get(connection).estMort()){
 			lesJoueurs.get(connection).action(Integer.parseInt(infos[1]), lesJoueurs, lesMurs);
 			}
 			break;

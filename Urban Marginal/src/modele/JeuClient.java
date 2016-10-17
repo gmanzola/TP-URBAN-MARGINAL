@@ -46,7 +46,7 @@ public class JeuClient extends Jeu {
 	}
 	
 	public void envoi(Object info) {
-		super.envoi(this.connection, info);
+		super.envoi(connection, info);
 
 	}
 	

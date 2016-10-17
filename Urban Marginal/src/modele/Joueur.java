@@ -51,7 +51,7 @@ public class Joueur extends Objet implements Global {
 		premierePosition(lesJoueurs, lesMurs);
 		affiche(MARCHE, etape);
 		boule = new Boule(jeuServeur);
-		this.jeuServeur.envoi(boule.getLabel());
+		jeuServeur.envoi(boule.getLabel());
 	}
 	
 	public void affiche(String etat, int etape) {
@@ -186,7 +186,7 @@ public class Joueur extends Objet implements Global {
 		this.boule.getLabel().getjLabel().setVisible(false);
 		jeuServeur.envoi(label);
 		jeuServeur.envoi(message);
-		jeuServeur.envoi(boule);
+		jeuServeur.envoi(boule.getLabel());
 		}
 		
 	}
