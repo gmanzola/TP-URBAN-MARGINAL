@@ -34,13 +34,15 @@ public class JeuClient extends Jeu {
 		if(info instanceof String){
 			controle.evemenementModele(this, "remplace chat", info);
 		}
+		if(info instanceof Integer){
+			controle.evemenementModele(this, "son", info);
+		}
 
 	}
 
 	@Override
 	public void deconnection(Connection connection) {
-		// TODO Auto-generated method stub
-
+		System.exit(0);
 	}
 	
 	public void envoi(Object info) {

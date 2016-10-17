@@ -7,6 +7,8 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
+import controleur.Controle;
+
 public class Connection extends Thread {
 
 	private Object leRecepteur;
@@ -44,6 +46,7 @@ public class Connection extends Thread {
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "Le client s'est déconnecté");
 				inOk = false;
+				((Controle)leRecepteur).deconnection(this);
 				try {
 					in.close();
 				} catch (IOException e1) {

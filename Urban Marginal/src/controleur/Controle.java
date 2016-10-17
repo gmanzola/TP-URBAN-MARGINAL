@@ -110,6 +110,9 @@ public class Controle implements Global {
 		if (ordre == "remplace chat"){
 			frmArene.remplaceChat((String) info);
 		}
+		if (ordre == "son"){
+			frmArene.joueSon((Integer) info);
+		}
 	}
 
 	private void evenementJeuServeur(String ordre, Object info) {
@@ -128,4 +131,13 @@ public class Controle implements Global {
 		}
 
 	}
+	
+	public void deconnection(Connection connection){
+		leJeu.deconnection(connection);
+	}
+
+	//public Jeu getLeJeu() {
+		//return leJeu;
+	//}
+	
 }

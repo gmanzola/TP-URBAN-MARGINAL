@@ -21,12 +21,16 @@ public class Joueur extends Objet implements Global {
 	private int etape;
 	private int orientation;
 	private Boule boule;
+	private static final int MAXVIE = 10;
+	private static final int GAIN = 1;
+	private static final int PERTE = 2; 
 
 	public Joueur(JeuServeur jeuServeur) {
 		this.jeuServeur = jeuServeur;
-		vie = 10;
+		vie = MAXVIE;
 		etape = 1; // numéro d'étape dans l'animation
 		orientation = DROITE;
+		
 	}
 
 	public void initPerso(String pseudo, int numPerso, Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
@@ -46,7 +50,7 @@ public class Joueur extends Objet implements Global {
 		jeuServeur.nouveauLabelJeu(message);
 		premierePosition(lesJoueurs, lesMurs);
 		affiche(MARCHE, etape);
-		boule = new Boule(this.jeuServeur);
+		boule = new Boule(jeuServeur);
 		this.jeuServeur.envoi(boule.getLabel());
 	}
 	
@@ -112,7 +116,9 @@ public class Joueur extends Objet implements Global {
 			posY = deplace(action, super.posY, orientation, LEPAS, H_ARENE-(H_PERSO+H_MESSAGE),lesJoueurs, lesMurs);
 			break;
 		case TIRE:
-			boule.tireBoule(this);
+			if(!boule.getLabel().getjLabel().isVisible())
+				jeuServeur.envoi(FIGHT);
+			boule.tireBoule(this, lesMurs, lesJoueurs);
 			break;
 		}
 		affiche(MARCHE,etape);
@@ -155,5 +161,33 @@ public class Joueur extends Objet implements Global {
 		return orientation;
 	}
 	
-
+	public void gainVie(){
+		vie += GAIN;
+	}
+	
+	public void perteVie(){
+		vie -= PERTE;
+		if(vie < 0){
+			vie = 0;
+		}
+	}
+	
+	public boolean estMort(){
+		if(vie == 0){
+			return true;
+		}
+		return false;
+	}
+	
+	public void departJoueur(){
+		if(this.label != null){
+		this.message.getjLabel().setVisible(false);
+		super.label.getjLabel().setVisible(false);
+		this.boule.getLabel().getjLabel().setVisible(false);
+		jeuServeur.envoi(label);
+		jeuServeur.envoi(message);
+		jeuServeur.envoi(boule);
+		}
+		
+	}
 }

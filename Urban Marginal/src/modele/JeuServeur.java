@@ -48,7 +48,7 @@ public class JeuServeur extends Jeu implements Global {
 			for(Joueur unJoueur : lesJoueursDansLordre){
 				super.envoi(connection, unJoueur.getLabel());
 				super.envoi(connection, unJoueur.getMessage());
-				super.envoi(connection, unJoueur.getBoule());
+				super.envoi(connection, unJoueur.getBoule().getLabel());
 			}
 		    lesJoueurs.get(connection).initPerso(infos[1], Integer.parseInt(infos[2]), lesJoueurs, lesMurs);
 		    this.lesJoueursDansLordre.add(this.lesJoueurs.get(connection));
@@ -63,14 +63,17 @@ public class JeuServeur extends Jeu implements Global {
 			break;
 			
 		case ACTION :
+			if(lesJoueurs.get(connection).estMort() == false){
 			lesJoueurs.get(connection).action(Integer.parseInt(infos[1]), lesJoueurs, lesMurs);
+			}
 			break;
 		}
 	}
 
 	@Override
 	public void deconnection(Connection connection) {
-		// TODO Auto-generated method stub
+		lesJoueurs.get(connection).departJoueur();
+		lesJoueurs.remove(connection);
 
 	}
 	
