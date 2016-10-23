@@ -44,7 +44,7 @@ public class Connection extends Thread {
 				System.out.println("erreur format d'objet : " + e);
 				System.exit(0);
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, "Le client s'est déconnecté");
+				JOptionPane.showMessageDialog(null, "Un client s'est déconnecté");
 				inOk = false;
 				((Controle)this.leRecepteur).deconnection(this);
 				try {

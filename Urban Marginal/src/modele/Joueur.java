@@ -21,19 +21,22 @@ public class Joueur extends Objet implements Global {
 	private int etape;
 	private int orientation;
 	private Boule boule;
-	private static final int MAXVIE = 10;
+	private BoulePuissante bouleP;
+	private static final int MAXVIE = 20;
 	private static final int GAIN = 1;
-	private static final int PERTE = 2; 
+	private static final int PERTE = 2;
+	private static final int GAINSUP = 1;
+	private static final int PERTESUP = 4;
 
 	public Joueur(JeuServeur jeuServeur) {
 		this.jeuServeur = jeuServeur;
 		vie = MAXVIE;
 		etape = 1; // numéro d'étape dans l'animation
 		orientation = DROITE;
-		
 	}
 
-	public void initPerso(String pseudo, int numPerso, Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+	public void initPerso(String pseudo, int numPerso, Hashtable<Connection, Joueur> lesJoueurs,
+			ArrayList<Mur> lesMurs) {
 
 		this.pseudo = pseudo;
 		this.numPerso = numPerso;
@@ -52,8 +55,11 @@ public class Joueur extends Objet implements Global {
 		affiche(MARCHE, etape);
 		boule = new Boule(jeuServeur);
 		jeuServeur.envoi(boule.getLabel());
+
+		// bouleP = new BoulePuissante(jeuServeur);
+		// jeuServeur.envoi(bouleP.getLabel());
 	}
-	
+
 	public void affiche(String etat, int etape) {
 		label.getjLabel().setBounds(posX, posY, L_PERSO, H_PERSO);
 		label.getjLabel().setIcon(new ImageIcon(PERSO + this.numPerso + etat + etape + "d" + orientation + EXTIMAGE));
@@ -77,7 +83,8 @@ public class Joueur extends Objet implements Global {
 		} while (toucheJoueur(lesJoueurs) || toucheMur(lesMurs));
 	}
 
-	private int deplace(int action, int position, int orientation, int lepas, int max,Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+	private int deplace(int action, int position, int orientation, int lepas, int max,
+			Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
 		this.orientation = orientation;
 		int ancienneposition = position;
 		position += lepas;
@@ -92,38 +99,40 @@ public class Joueur extends Objet implements Global {
 		} else {
 			posY = position;
 		}
-		if (toucheJoueur(lesJoueurs) || toucheMur(lesMurs) ) {
+		if (toucheJoueur(lesJoueurs) || toucheMur(lesMurs)) {
 			position = ancienneposition;
 		}
-		etape = etape%NBETATSMARCHE + 1; 
+		etape = etape % NBETATSMARCHE + 1;
 		return position;
 
 	}
 
-	public void action(int action, Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs){
-		switch(action){
-		
-		case GAUCHE :
-			posX = deplace(action, super.posX, GAUCHE, -LEPAS, L_ARENE-(H_PERSO+H_MESSAGE),lesJoueurs, lesMurs);
+	public void action(int action, Hashtable<Connection, Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+		switch (action) {
+
+		case GAUCHE:
+			posX = deplace(action, super.posX, GAUCHE, -LEPAS, L_ARENE - (H_PERSO + H_MESSAGE), lesJoueurs, lesMurs);
 			break;
 		case DROITE:
-			posX = deplace(action, super.posX, DROITE, LEPAS, L_ARENE-(H_PERSO+H_MESSAGE),lesJoueurs, lesMurs);
+			posX = deplace(action, super.posX, DROITE, LEPAS, L_ARENE - (H_PERSO + H_MESSAGE), lesJoueurs, lesMurs);
 			break;
 		case HAUT:
-			posY = deplace(action, super.posY, orientation, -LEPAS, H_ARENE-(H_PERSO+H_MESSAGE),lesJoueurs, lesMurs);
+			posY = deplace(action, super.posY, orientation, -LEPAS, H_ARENE - (H_PERSO + H_MESSAGE), lesJoueurs,
+					lesMurs);
 			break;
 		case BAS:
-			posY = deplace(action, super.posY, orientation, LEPAS, H_ARENE-(H_PERSO+H_MESSAGE),lesJoueurs, lesMurs);
+			posY = deplace(action, super.posY, orientation, LEPAS, H_ARENE - (H_PERSO + H_MESSAGE), lesJoueurs,
+					lesMurs);
 			break;
 		case TIRE:
-			if(!boule.getLabel().getjLabel().isVisible())
+			if (!boule.getLabel().getjLabel().isVisible())
 				jeuServeur.envoi(FIGHT);
 			boule.tireBoule(this, lesMurs, lesJoueurs);
 			break;
 		}
-		affiche(MARCHE,etape);
-}
-	
+		affiche(MARCHE, etape);
+	}
+
 	private boolean toucheJoueur(Hashtable<Connection, Joueur> lesJoueurs) {
 		for (Joueur unJoueur : lesJoueurs.values()) {
 			if (!unJoueur.equals(this)) {
@@ -144,11 +153,11 @@ public class Joueur extends Objet implements Global {
 		}
 		return false;
 	}
-	
+
 	public Label getMessage() {
 		return message;
 	}
-	
+
 	public String getPseudo() {
 		return pseudo;
 	}
@@ -156,38 +165,58 @@ public class Joueur extends Objet implements Global {
 	public Boule getBoule() {
 		return boule;
 	}
-	
-	public int getOrientation(){
-		return orientation;
-	}
-	
-	public void gainVie(){
+
+	public void gainVie() {
 		vie += GAIN;
 	}
-	
-	public void perteVie(){
+
+	public void perteVie() {
 		vie -= PERTE;
-		if(vie < 0){
+		if (vie < 0) {
 			vie = 0;
 		}
 	}
-	
-	public boolean estMort(){
-		if(vie == 0){
+
+	public void recussite() {
+		vie = 20;
+	}
+
+	public boolean estMort() {
+		if (vie == 0) {
 			return true;
 		}
 		return false;
 	}
-	
-	public void departJoueur(){
-		if(this.label != null){
-		this.message.getjLabel().setVisible(false);
-		super.label.getjLabel().setVisible(false);
-		this.boule.getLabel().getjLabel().setVisible(false);
-		jeuServeur.envoi(label);
-		jeuServeur.envoi(message);
-		jeuServeur.envoi(boule.getLabel());
-		}
-		
+
+	public BoulePuissante getBoulePuissante() {
+		return bouleP;
 	}
+
+	public void gainVieBoulePuissante() {
+		vie += GAINSUP;
+	}
+
+	public void perteVieBoulePuissante() {
+		vie -= PERTESUP;
+		if (vie < 0) {
+			vie = 0;
+		}
+	}
+
+	public int getOrientation() {
+		return orientation;
+	}
+
+	public void departJoueur() {
+		if (this.label != null) {
+			this.message.getjLabel().setVisible(false);
+			super.label.getjLabel().setVisible(false);
+			this.boule.getLabel().getjLabel().setVisible(false);
+			jeuServeur.envoi(label);
+			jeuServeur.envoi(message);
+			jeuServeur.envoi(boule.getLabel());
+		}
+
+	}
+
 }

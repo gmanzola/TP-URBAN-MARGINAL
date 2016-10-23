@@ -107,12 +107,12 @@ public class Controle implements Global {
 		if (ordre == "ajout joueur") {
 			frmArene.ajoutModifJoueur(((Label) info).getNumLabel(), ((Label) info).getjLabel());
 		}
-		if (ordre == "remplace chat"){
+		if (ordre == "remplace chat") {
 			frmArene.remplaceChat((String) info);
 		}
-		if (ordre == "son"){
-			frmArene.joueSon((Integer) info);
-		}
+		//if (ordre == "son") {
+			//frmArene.joueSon((Integer) info);
+		//}
 	}
 
 	private void evenementJeuServeur(String ordre, Object info) {
@@ -125,19 +125,19 @@ public class Controle implements Global {
 		if (ordre == "ajout joueur") {
 			frmArene.ajoutJoueur((JLabel) info);
 		}
-		if (ordre == "ajout phrase"){
-			frmArene.ajoutChat(((String)info));
-			((JeuServeur)this.leJeu).envoi(frmArene.getTxtChat().getText());
+		if (ordre == "ajout phrase") {
+			frmArene.ajoutChat(((String) info));
+			((JeuServeur) this.leJeu).envoi(frmArene.getTxtChat().getText());
 		}
 
 	}
-	
-	public void deconnection(Connection connection){
+
+	public void deconnection(Connection connection) {
 		leJeu.deconnection(connection);
 	}
 
 	public Jeu getLeJeu() {
 		return leJeu;
 	}
-	
+
 }

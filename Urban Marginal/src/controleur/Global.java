@@ -46,6 +46,7 @@ public interface Global {
 	public static final int H_BOULE = 17;
 	public static final String CHEMINBOULES = CHEMIN + "boules" + SEPARATOR;
 	public static final String BOULE = CHEMINBOULES + "boule.gif";
+	public static final String BOULEPUISSANTE = CHEMINBOULES + "bouleP.gif";
 	public static final String CHEMINSONS = CHEMIN + "sons/";
 	public static final String SONPRECEDENT = CHEMINSONS + "precedent.wav";
 	public static final String SONSUIVANT = CHEMINSONS + "suivant.wav";
@@ -55,10 +56,7 @@ public interface Global {
 	public static final int FIGHT = 0;
 	public static final int HURT = 1;
 	public static final int DEATH = 2;
-	public static final String[]
-			SON = {"fight.wav", "hurt.wav","death.wav"};
-	
-	
-	
+	public static final String[] SON = {"fight.wav","hurt.wav","death.wav"};
+
 
 }

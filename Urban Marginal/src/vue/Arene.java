@@ -30,7 +30,7 @@ public class Arene extends JFrame implements Global {
 	private JPanel jpnJeu;
 	private boolean client;
 	private Controle controle;
-	private Son[] lessons = new Son[SON.length] ;
+	private Son[] lessons = new Son[SON.length];
 
 	/**
 	 * Create the frame.
@@ -46,14 +46,14 @@ public class Arene extends JFrame implements Global {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		if(client){
-		contentPane.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				contentPane_keyPressed(arg0);
-			}
-		});
+
+		if (client) {
+			contentPane.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent arg0) {
+					contentPane_keyPressed(arg0);
+				}
+			});
 		}
 
 		jpnJeu = new JPanel();
@@ -81,24 +81,26 @@ public class Arene extends JFrame implements Global {
 
 			txtSaisie.addKeyListener(new KeyAdapter() {
 
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		txtSaisie_keyPressed(arg0);
-	}});}
+				@Override
+				public void keyPressed(KeyEvent arg0) {
+					txtSaisie_keyPressed(arg0);
+				}
+			});
+		}
 
-	JScrollPane jspChat = new JScrollPane();
-	jspChat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-	jspChat.setBounds(0, H_ARENE + H_SAISIE, L_ARENE + H_CHAT, H_CHAT - H_SAISIE - 7 * MARGE);
-	contentPane.add(jspChat);
-	txtChat = new JTextArea();
-	jspChat.setViewportView(txtChat);
-	
-	if (client){
-		(new Son(SONAMBIANCE)).playContinue() ;
-		for(int k = 0; k < lessons.length; k++ ){
-		lessons[k]= new Son(CHEMINSONS+SON[k]);
-	}
-	}
+		JScrollPane jspChat = new JScrollPane();
+		jspChat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		jspChat.setBounds(0, H_ARENE + H_SAISIE, L_ARENE + H_CHAT, H_CHAT - H_SAISIE - 7 * MARGE);
+		contentPane.add(jspChat);
+		txtChat = new JTextArea();
+		jspChat.setViewportView(txtChat);
+
+		if(client){
+			(new Son(SONAMBIANCE)).playContinue();
+			for(int k=0;k<SON.length;k++){
+				lessons[k] = new Son(CHEMINSONS+SON[k]);
+			}
+}
 	}
 
 	public void ajoutMur(JLabel objet) {
@@ -147,32 +149,32 @@ public class Arene extends JFrame implements Global {
 	}
 
 	private void contentPane_keyPressed(KeyEvent arg0) {
-		
+
 		int valeur = -1;
-		
-		switch (arg0.getKeyCode()){
-		
-		case KeyEvent.VK_SPACE :
+
+		switch (arg0.getKeyCode()) {
+
+		case KeyEvent.VK_SPACE:
 			valeur = TIRE;
 			break;
-			
-		case KeyEvent.VK_LEFT :
+
+		case KeyEvent.VK_LEFT:
 			valeur = GAUCHE;
 			break;
-			
-		case KeyEvent.VK_RIGHT :
+
+		case KeyEvent.VK_RIGHT:
 			valeur = DROITE;
 			break;
-			
-		case KeyEvent.VK_DOWN :
+
+		case KeyEvent.VK_DOWN:
 			valeur = BAS;
 			break;
-	
-		case KeyEvent.VK_UP :
+
+		case KeyEvent.VK_UP:
 			valeur = HAUT;
 			break;
 		}
-		if (valeur != -1){
+		if (valeur != -1) {
 			controle.evenementVue(this, ACTION + SEPARE + valeur);
 		}
 	}
@@ -188,8 +190,8 @@ public class Arene extends JFrame implements Global {
 	public JTextArea getTxtChat() {
 		return txtChat;
 	}
-	
-	public void joueSon(int son){
-		lessons[son].play();
+
+	public void joueSon(int numSon) {
+		lessons[numSon].play();
 	}
 }

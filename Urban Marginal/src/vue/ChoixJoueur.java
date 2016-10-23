@@ -170,7 +170,7 @@ public class ChoixJoueur extends JFrame implements Global {
 		txtPseudo.setColumns(10);
 
 		lblPersonnage = new JLabel("");
-		lblPersonnage.setBounds(155, 119, 96, 103);
+		lblPersonnage.setBounds(175, 122, 96, 103);
 		contentPane.add(lblPersonnage);
 
 		JLabel lblFond = new JLabel("");

@@ -13,7 +13,7 @@ public class ClientSocket {
 
 		try {
 			Socket socket = new Socket(ip, port);
-			System.out.println("La connexion au serveur a reussi");
+			//System.out.println("La connexion au serveur a reussi");
 			this.connexionOk = true;
 			new Connection(socket, leRecepteur);
 		} catch (UnknownHostException e) {
