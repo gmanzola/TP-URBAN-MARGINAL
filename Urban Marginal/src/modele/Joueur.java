@@ -25,14 +25,15 @@ public class Joueur extends Objet implements Global {
 	private static final int MAXVIE = 20;
 	private static final int GAIN = 1;
 	private static final int PERTE = 2;
-	private static final int GAINSUP = 1;
-	private static final int PERTESUP = 4;
+	private static final int GAINSUP = 2;
+	private static final int PERTESUP = 3;
 
 	public Joueur(JeuServeur jeuServeur) {
 		this.jeuServeur = jeuServeur;
 		vie = MAXVIE;
 		etape = 1; // numéro d'étape dans l'animation
 		orientation = DROITE;
+		nbPuissance = 0;
 	}
 
 	public void initPerso(String pseudo, int numPerso, Hashtable<Connection, Joueur> lesJoueurs,

@@ -47,21 +47,25 @@ public class Attaque extends Thread implements Global {
 			}
 
 			laBoule.getLabel().getjLabel().setBounds(laBoule.getPosX(), laBoule.getPosY(), L_BOULE, H_BOULE);
+			if (attaquant.getNbPuissance() > 0){
+				laBoule.getLabel().getjLabel().setIcon(new ImageIcon(BOULEPUISSANTE));
+			}
+			else{
+				laBoule.getLabel().getjLabel().setIcon(new ImageIcon(BOULE));
+			}
 			jeuServeur.envoi(laBoule.getLabel());
 			victime = toucheJoueur();
 		} while (laBoule.getPosX() > 0 && laBoule.getPosX() < L_ARENE && toucheMur() == false && victime == null);
 
 		if (victime != null && victime.estMort() == false) {
 			jeuServeur.envoi(HURT);
-
-			if (attaquant.getNbPuissance() != 0) {
+			
+			if (attaquant.getNbPuissance() > 0) {
 				attaquant.setNbPuissance(attaquant.getNbPuissance() - 1);
-				laBoule.getLabel().getjLabel().setIcon(new ImageIcon(BOULEPUISSANTE));
 				attaquant.gainVieBoulePuissante();
 				victime.perteVieBoulePuissante();
 			} 
 			else {
-				laBoule.getLabel().getjLabel().setIcon(new ImageIcon(BOULE));
 				victime.perteVie();
 				attaquant.gainVie();
 			}
@@ -74,6 +78,9 @@ public class Attaque extends Thread implements Global {
 			if (victime.estMort()) {
 				jeuServeur.envoi(DEATH);
 				attaquant.setNbPuissance(3);
+				if(victime.getNbPuissance() != 0){
+					victime.setNbPuissance(0);
+				}
 
 				for (int i = 1; i <= NBETATSMORT; i++) {
 					victime.affiche(MORT, i);
