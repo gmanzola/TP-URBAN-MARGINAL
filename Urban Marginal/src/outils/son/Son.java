@@ -20,7 +20,11 @@ import java.io.Serializable;
 
 public class Son implements Serializable {
 
-    //--- propriétés ---
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//--- propriétés ---
     private String son ;
     private Sound sound ;
 

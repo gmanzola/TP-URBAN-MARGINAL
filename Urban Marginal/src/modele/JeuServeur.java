@@ -12,7 +12,6 @@ public class JeuServeur extends Jeu implements Global {
 	private ArrayList<Mur> lesMurs = new ArrayList<>();
 	private Hashtable<Connection, Joueur> lesJoueurs = new Hashtable<>();
 	private ArrayList<Joueur> lesJoueursDansLordre = new ArrayList<>();
-	private int nbJoueurTue = 0;
 
 	public JeuServeur(Controle controle) {
 		super.controle = controle;
@@ -92,20 +91,5 @@ public class JeuServeur extends Jeu implements Global {
 		for (Connection unJoueur : lesJoueurs.keySet()) {
 			super.envoi(unJoueur, info);
 		}
-	}
-
-	/**
-	 * @return the nbJoueurTue
-	 */
-	public int getNbJoueurTue() {
-		return nbJoueurTue;
-	}
-
-	/**
-	 * @param nbJoueurTue
-	 *            the nbJoueurTue to set
-	 */
-	public void setNbJoueurTue(int nbJoueurTue) {
-		this.nbJoueurTue = nbJoueurTue;
 	}
 }

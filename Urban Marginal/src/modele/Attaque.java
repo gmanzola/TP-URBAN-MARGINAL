@@ -3,6 +3,8 @@ package modele;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import javax.swing.ImageIcon;
+
 import controleur.Global;
 import outils.connexion.Connection;
 
@@ -43,6 +45,7 @@ public class Attaque extends Thread implements Global {
 			} else {
 				laBoule.setPosX(laBoule.getPosX() + LEPAS);
 			}
+
 			laBoule.getLabel().getjLabel().setBounds(laBoule.getPosX(), laBoule.getPosY(), L_BOULE, H_BOULE);
 			jeuServeur.envoi(laBoule.getLabel());
 			victime = toucheJoueur();
@@ -50,10 +53,15 @@ public class Attaque extends Thread implements Global {
 
 		if (victime != null && victime.estMort() == false) {
 			jeuServeur.envoi(HURT);
-			if (jeuServeur.getNbJoueurTue() >= 1) {
+
+			if (attaquant.getNbPuissance() != 0) {
+				attaquant.setNbPuissance(attaquant.getNbPuissance() - 1);
+				laBoule.getLabel().getjLabel().setIcon(new ImageIcon(BOULEPUISSANTE));
 				attaquant.gainVieBoulePuissante();
 				victime.perteVieBoulePuissante();
-			} else {
+			} 
+			else {
+				laBoule.getLabel().getjLabel().setIcon(new ImageIcon(BOULE));
 				victime.perteVie();
 				attaquant.gainVie();
 			}
@@ -65,18 +73,18 @@ public class Attaque extends Thread implements Global {
 			}
 			if (victime.estMort()) {
 				jeuServeur.envoi(DEATH);
-				jeuServeur.setNbJoueurTue(jeuServeur.getNbJoueurTue() + 1);
-				jeuServeur.envoi(jeuServeur.getNbJoueurTue());
-				System.out.println("nombre de joueur tué :" + jeuServeur.getNbJoueurTue());
+				attaquant.setNbPuissance(3);
 
 				for (int i = 1; i <= NBETATSMORT; i++) {
 					victime.affiche(MORT, i);
 					this.pause(120, 0);
 				}
 				this.pause(8500, 0);
+
 				for (int i = 2; i > 0; i--) {
 					victime.affiche(MORT, i);
 					this.pause(200, 0);
+
 				}
 				victime.recussite();
 				victime.affiche(MARCHE, 1);
@@ -87,7 +95,6 @@ public class Attaque extends Thread implements Global {
 		}
 		laBoule.getLabel().getjLabel().setVisible(false);
 		jeuServeur.envoi(laBoule.getLabel());
-
 	}
 
 	private boolean toucheMur() {

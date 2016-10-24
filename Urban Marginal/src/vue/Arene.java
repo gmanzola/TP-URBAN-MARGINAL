@@ -93,6 +93,7 @@ public class Arene extends JFrame implements Global {
 		jspChat.setBounds(0, H_ARENE + H_SAISIE, L_ARENE + H_CHAT, H_CHAT - H_SAISIE - 7 * MARGE);
 		contentPane.add(jspChat);
 		txtChat = new JTextArea();
+		txtChat.setEditable(false);
 		jspChat.setViewportView(txtChat);
 
 		if(client){

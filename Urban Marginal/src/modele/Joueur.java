@@ -21,7 +21,7 @@ public class Joueur extends Objet implements Global {
 	private int etape;
 	private int orientation;
 	private Boule boule;
-	private BoulePuissante bouleP;
+	private int nbPuissance;
 	private static final int MAXVIE = 20;
 	private static final int GAIN = 1;
 	private static final int PERTE = 2;
@@ -125,9 +125,10 @@ public class Joueur extends Objet implements Global {
 					lesMurs);
 			break;
 		case TIRE:
-			if (!boule.getLabel().getjLabel().isVisible())
+			if (!boule.getLabel().getjLabel().isVisible()) {
 				jeuServeur.envoi(FIGHT);
-			boule.tireBoule(this, lesMurs, lesJoueurs);
+				boule.tireBoule(this, lesMurs, lesJoueurs);
+			}
 			break;
 		}
 		affiche(MARCHE, etape);
@@ -154,6 +155,17 @@ public class Joueur extends Objet implements Global {
 		return false;
 	}
 
+	public void recussite() {
+		vie = 20;
+	}
+
+	public boolean estMort() {
+		if (vie == 0) {
+			return true;
+		}
+		return false;
+	}
+
 	public Label getMessage() {
 		return message;
 	}
@@ -166,8 +178,19 @@ public class Joueur extends Objet implements Global {
 		return boule;
 	}
 
+	public int getNbPuissance() {
+		return nbPuissance;
+	}
+
+	public void setNbPuissance(int nbPuissance) {
+		this.nbPuissance = nbPuissance;
+	}
+
 	public void gainVie() {
 		vie += GAIN;
+		if (vie > 20) {
+			vie = 20;
+		}
 	}
 
 	public void perteVie() {
@@ -177,23 +200,12 @@ public class Joueur extends Objet implements Global {
 		}
 	}
 
-	public void recussite() {
-		vie = 20;
-	}
-
-	public boolean estMort() {
-		if (vie == 0) {
-			return true;
-		}
-		return false;
-	}
-
-	public BoulePuissante getBoulePuissante() {
-		return bouleP;
-	}
-
 	public void gainVieBoulePuissante() {
 		vie += GAINSUP;
+		vie += GAIN;
+		if (vie > 20) {
+			vie = 20;
+		}
 	}
 
 	public void perteVieBoulePuissante() {
