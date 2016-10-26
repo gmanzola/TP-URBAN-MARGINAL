@@ -64,7 +64,7 @@ public class Joueur extends Objet implements Global {
 		label.getjLabel().setBounds(posX, posY, L_PERSO, H_PERSO);
 		label.getjLabel().setIcon(new ImageIcon(PERSO + this.numPerso + etat + etape + "d" + orientation + EXTIMAGE));
 		message.getjLabel().setBounds(posX - 10, posY + H_PERSO, L_PERSO + 0, H_MESSAGE);
-		message.getjLabel().setText(PSEUDO + " : " + vie);
+		message.getjLabel().setText(pseudo + " : " + vie);
 		this.jeuServeur.envoi(super.label);
 		this.jeuServeur.envoi(message);
 

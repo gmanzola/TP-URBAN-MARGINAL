@@ -64,19 +64,21 @@ public class Attaque extends Thread implements Global {
 			System.out.println("Attaquant reste " + attaquant.getNbPuissance() + "boule(s) puissante");
 			System.out.println("victime reste :" + victime.getNbbouclier() + "bouclier(s)");
 			
-			if(victime.getNbbouclier() == 0){
-				if (attaquant.getNbPuissance() > 0) {
-					attaquant.setNbPuissance(attaquant.getNbPuissance() - 1);
-					attaquant.gainVieBoulePuissante();
-					victime.perteVieBoulePuissante();
-				} 
-					else {
-						victime.perteVie();
-						attaquant.gainVie();
-					}
+			if(victime.getNbbouclier() == 0 && attaquant.getNbPuissance() == 0){
+				attaquant.gainVie();
+				victime.perteVie();
+			}
+			else if(victime.getNbbouclier() > 0 && attaquant.getNbPuissance() == 0){
+				victime.setNbBouclier(victime.getNbbouclier()-1);
+			}
+			else if (attaquant.getNbPuissance() > 0 && victime.getNbbouclier() == 0){
+				attaquant.gainVieBoulePuissante();
+				victime.perteVieBoulePuissante();
+				attaquant.setNbPuissance(attaquant.getNbPuissance() - 1);
 			}
 			else{
-				victime.setNbBouclier(victime.getNbbouclier()- 1);
+				attaquant.setNbPuissance(attaquant.getNbPuissance() - 1);
+				victime.setNbBouclier(victime.getNbbouclier() - 1);
 			}
 
 			for (int i = 1; i <= NBETATSBLESSE; i++) {
@@ -104,6 +106,7 @@ public class Attaque extends Thread implements Global {
 
 				}
 				victime.recussite();
+				
 				victime.affiche(MARCHE, 1);
 				
 			} 
