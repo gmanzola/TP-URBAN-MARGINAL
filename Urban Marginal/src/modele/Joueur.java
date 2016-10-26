@@ -22,6 +22,7 @@ public class Joueur extends Objet implements Global {
 	private int orientation;
 	private Boule boule;
 	private int nbPuissance;
+	private int nbBouclier;
 	private static final int MAXVIE = 20;
 	private static final int GAIN = 1;
 	private static final int PERTE = 2;
@@ -34,6 +35,7 @@ public class Joueur extends Objet implements Global {
 		etape = 1; // numéro d'étape dans l'animation
 		orientation = DROITE;
 		nbPuissance = 0;
+		nbBouclier = 0;
 	}
 
 	public void initPerso(String pseudo, int numPerso, Hashtable<Connection, Joueur> lesJoueurs,
@@ -56,9 +58,6 @@ public class Joueur extends Objet implements Global {
 		affiche(MARCHE, etape);
 		boule = new Boule(jeuServeur);
 		jeuServeur.envoi(boule.getLabel());
-
-		// bouleP = new BoulePuissante(jeuServeur);
-		// jeuServeur.envoi(bouleP.getLabel());
 	}
 
 	public void affiche(String etat, int etape) {
@@ -214,6 +213,14 @@ public class Joueur extends Objet implements Global {
 		if (vie < 0) {
 			vie = 0;
 		}
+	}
+
+	public int getNbbouclier() {
+		return nbBouclier;
+	}
+
+	public void setNbBouclier(int nbBouclier) {
+		this.nbBouclier = nbBouclier;
 	}
 
 	public int getOrientation() {

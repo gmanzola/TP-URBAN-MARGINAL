@@ -45,29 +45,38 @@ public class Attaque extends Thread implements Global {
 			} else {
 				laBoule.setPosX(laBoule.getPosX() + LEPAS);
 			}
-
 			laBoule.getLabel().getjLabel().setBounds(laBoule.getPosX(), laBoule.getPosY(), L_BOULE, H_BOULE);
-			if (attaquant.getNbPuissance() > 0){
-				laBoule.getLabel().getjLabel().setIcon(new ImageIcon(BOULEPUISSANTE));
-			}
-			else{
-				laBoule.getLabel().getjLabel().setIcon(new ImageIcon(BOULE));
-			}
+			
+			// on met la condition ici car le test doit etre effectue avant que la boule ne soit envoyer au serveur
+				if (attaquant.getNbPuissance() > 0){
+					laBoule.getLabel().getjLabel().setIcon(new ImageIcon(BOULEPUISSANTE));
+				}
+				else{
+					laBoule.getLabel().getjLabel().setIcon(new ImageIcon(BOULE));
+				}
 			jeuServeur.envoi(laBoule.getLabel());
 			victime = toucheJoueur();
+			
 		} while (laBoule.getPosX() > 0 && laBoule.getPosX() < L_ARENE && toucheMur() == false && victime == null);
 
-		if (victime != null && victime.estMort() == false) {
+		if (victime != null && !victime.estMort()) {
 			jeuServeur.envoi(HURT);
+			System.out.println("Attaquant reste " + attaquant.getNbPuissance() + "boule(s) puissante");
+			System.out.println("victime reste :" + victime.getNbbouclier() + "bouclier(s)");
 			
-			if (attaquant.getNbPuissance() > 0) {
-				attaquant.setNbPuissance(attaquant.getNbPuissance() - 1);
-				attaquant.gainVieBoulePuissante();
-				victime.perteVieBoulePuissante();
-			} 
-			else {
-				victime.perteVie();
-				attaquant.gainVie();
+			if(victime.getNbbouclier() == 0){
+				if (attaquant.getNbPuissance() > 0) {
+					attaquant.setNbPuissance(attaquant.getNbPuissance() - 1);
+					attaquant.gainVieBoulePuissante();
+					victime.perteVieBoulePuissante();
+				} 
+					else {
+						victime.perteVie();
+						attaquant.gainVie();
+					}
+			}
+			else{
+				victime.setNbBouclier(victime.getNbbouclier()- 1);
 			}
 
 			for (int i = 1; i <= NBETATSBLESSE; i++) {
@@ -78,26 +87,29 @@ public class Attaque extends Thread implements Global {
 			if (victime.estMort()) {
 				jeuServeur.envoi(DEATH);
 				attaquant.setNbPuissance(3);
-				if(victime.getNbPuissance() != 0){
-					victime.setNbPuissance(0);
-				}
+				victime.setNbBouclier(2);
+					if(victime.getNbPuissance() != 0){
+						victime.setNbPuissance(0);
+					}
 
 				for (int i = 1; i <= NBETATSMORT; i++) {
 					victime.affiche(MORT, i);
 					this.pause(120, 0);
 				}
-				this.pause(8500, 0);
+				this.pause(5000, 0);
 
 				for (int i = 2; i > 0; i--) {
 					victime.affiche(MORT, i);
-					this.pause(200, 0);
+					this.pause(500, 0);
 
 				}
 				victime.recussite();
 				victime.affiche(MARCHE, 1);
-			} else {
-				victime.affiche(MARCHE, 1);
-			}
+				
+			} 
+				else {
+					victime.affiche(MARCHE, 1);
+				}
 			attaquant.affiche(MARCHE, 1);
 		}
 		laBoule.getLabel().getjLabel().setVisible(false);

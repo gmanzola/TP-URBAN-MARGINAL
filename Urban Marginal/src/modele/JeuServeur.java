@@ -35,7 +35,7 @@ public class JeuServeur extends Jeu implements Global {
 
 	@Override
 	public void reception(Connection connection, Object info) {
-		// System.out.println(info);
+		//System.out.println(info);
 		String[] infos;
 		infos = ((String) info).split(SEPARE);
 
