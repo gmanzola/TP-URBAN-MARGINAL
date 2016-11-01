@@ -105,8 +105,9 @@ public class Attaque extends Thread implements Global {
 					this.pause(500, 0);
 
 				}
+				attaquant.getBoule().getLabel().getjLabel().setVisible(false);
+				jeuServeur.envoi(attaquant.getBoule().getLabel());
 				victime.recussite();
-				
 				victime.affiche(MARCHE, 1);
 				
 			} 
